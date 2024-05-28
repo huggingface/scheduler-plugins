@@ -124,6 +124,9 @@ rules:
 - apiGroups: ["scheduling.x-k8s.io"]
   resources: ["podgroups", "elasticquotas", "podgroups/status", "elasticquotas/status"]
   verbs: ["get", "list", "watch", "create", "delete", "update", "patch"]
+- apiGroups: ["metrics.k8s.io"]
+  resources: ["nodes"]
+  verbs: ["get", "list"]
 {{- /* resources need to be updated with the scheduler plugins used */}}
 {{- if has "SySched" .Values.plugins.enabled }}
 - apiGroups: ["security-profiles-operator.x-k8s.io"]
