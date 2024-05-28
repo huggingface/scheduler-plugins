@@ -24,7 +24,7 @@ data:
           - name: {{ title . }}
           {{- end }}
       {{- if $.Values.pluginConfig }}
-      pluginConfig: {{ toYaml $.Values.pluginConfig | nindent 6 }}
+      pluginConfig:{{ toYaml $.Values.pluginConfig | nindent 6 }}
       {{- end }}
 
   {{- /* TODO: wire CRD installation with enabled plugins. */}}
