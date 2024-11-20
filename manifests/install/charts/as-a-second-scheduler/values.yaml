@@ -2,6 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+name: scheduler-plugins
 scheduler:
   name: scheduler-plugins-scheduler
   image: registry.k8s.io/scheduler-plugins/kube-scheduler:v0.34.7
@@ -49,3 +50,5 @@ pluginConfig:
 #  args:
 #    defaultProfileNamespace: "default"
 #    defaultProfileName: "full-seccomp"
+
+# namespaceOverride: ""

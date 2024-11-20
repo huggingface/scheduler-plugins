@@ -1,7 +1,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: scheduler-plugins-scheduler
+  name: {{ include "scheduler-plugins.schedulerName" . }}
 rules:
 - apiGroups: [""]
   resources: ["namespaces"]
@@ -91,20 +91,20 @@ rules:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: scheduler-plugins-scheduler
+  name: {{ include "scheduler-plugins.schedulerName" . }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: scheduler-plugins-scheduler
+  name: {{ include "scheduler-plugins.schedulerName" . }}
 subjects:
 - kind: ServiceAccount
-  name: {{ .Values.scheduler.name }}
-  namespace: {{ .Release.Namespace }}
+  name: {{ include "scheduler-plugins.schedulerName" . }}
+  namespace: {{ include "scheduler-plugins.namespace" . }}
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: scheduler-plugins-controller
+  name: {{ include "scheduler-plugins.controllerName" . }}
 rules:
 - apiGroups: [""]
   resources: ["pods"]
@@ -137,20 +137,20 @@ rules:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: scheduler-plugins-controller
+  name: {{ include "scheduler-plugins.controllerName" . }}
 subjects:
 - kind: ServiceAccount
-  name: {{ .Values.controller.name }}
-  namespace: {{ .Release.Namespace }}
+  name: {{ include "scheduler-plugins.controllerName" . }}
+  namespace: {{ include "scheduler-plugins.namespace" . }}
 roleRef:
   kind: ClusterRole
-  name: scheduler-plugins-controller
+  name: {{ include "scheduler-plugins.controllerName" . }}
   apiGroup: rbac.authorization.k8s.io
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: sched-plugins::extension-apiserver-authentication-reader
+  name: {{.Values.name}}::extension-apiserver-authentication-reader
   namespace: kube-system
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -158,8 +158,8 @@ roleRef:
   name: extension-apiserver-authentication-reader
 subjects:
 - kind: ServiceAccount
-  name: {{ .Values.scheduler.name }}
-  namespace: {{ .Release.Namespace }}
+  name: {{ include "scheduler-plugins.schedulerName" . }}
+  namespace: {{ include "scheduler-plugins.namespace" . }}
 - kind: ServiceAccount
-  name: {{ .Values.controller.name }}
-  namespace: {{ .Release.Namespace }}
+  name: {{ include "scheduler-plugins.controllerName" . }}
+  namespace: {{ include "scheduler-plugins.namespace" . }}
