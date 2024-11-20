@@ -2,8 +2,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: scheduler-config
-  namespace: {{ .Release.Namespace }}
+  name: {{ include "scheduler-plugins.schedulerName" . }}-config
+  namespace: {{ include "scheduler-plugins.namespace" . }}
 data:
   scheduler-config.yaml: |
     apiVersion: kubescheduler.config.k8s.io/v1
@@ -12,7 +12,7 @@ data:
       leaderElect: {{ .Values.scheduler.leaderElect }}
     profiles:
     # Compose all plugins in one profile
-    - schedulerName: {{ .Values.scheduler.name }}
+    - schedulerName: {{ .Values.name }}
       plugins:
         multiPoint:
           enabled:

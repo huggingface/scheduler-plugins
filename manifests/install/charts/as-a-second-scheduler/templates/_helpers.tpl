@@ -50,3 +50,28 @@ app.kubernetes.io/name: {{ include "scheduler-plugins-as-a-second-scheduler.name
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
+{{/*
+Namespace
+*/}}
+{{- define "scheduler-plugins.namespace" -}}
+{{- default .Release.Namespace .Values.namespaceOverride | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{/*
+Names
+*/}}
+{{- define "scheduler-plugins.schedulerFullName" -}}
+{{- .Values.name }}-scheduler
+{{- end }}
+
+{{- define "scheduler-plugins.schedulerName" -}}
+{{- include "scheduler-plugins.schedulerFullName" . | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{- define "scheduler-plugins.controllerFullName" -}}
+{{- .Values.name }}-controller
+{{- end }}
+
+{{- define "scheduler-plugins.controllerName" -}}
+{{- include "scheduler-plugins.controllerFullName" . | trunc 63 | trimSuffix "-" }}
+{{- end }}
