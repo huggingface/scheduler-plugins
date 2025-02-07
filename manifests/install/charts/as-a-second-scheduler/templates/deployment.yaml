@@ -1,21 +1,21 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: {{ .Values.controller.name }}
-  namespace: {{ .Release.Namespace }}
+  name: {{ include "scheduler-plugins.controllerName" . }}
+  namespace: {{ include "scheduler-plugins.namespace" . }}
   labels:
-    app: scheduler-plugins-controller
+    app: {{ include "scheduler-plugins.controllerName" . }}
 spec:
   replicas: {{ .Values.controller.replicaCount }}
   selector:
     matchLabels:
-      app: scheduler-plugins-controller
+      app: {{ include "scheduler-plugins.controllerName" . }}
   template:
     metadata:
       labels:
-        app: scheduler-plugins-controller
+        app: {{ include "scheduler-plugins.controllerName" . }}
     spec:
-      serviceAccountName: {{ .Values.controller.name }}
+      serviceAccountName: {{ include "scheduler-plugins.controllerName" . }}
       containers:
       - name: scheduler-plugins-controller
         image: {{ .Values.controller.image }}
@@ -36,19 +36,19 @@ kind: Deployment
 metadata:
   labels:
     component: scheduler
-  name: {{ .Values.scheduler.name }}
-  namespace: {{ .Release.Namespace }}
+  name: {{ include "scheduler-plugins.schedulerName" . }}
+  namespace: {{ include "scheduler-plugins.namespace" . }}
 spec:
   selector:
     matchLabels:
-      component: scheduler
+      component: {{ include "scheduler-plugins.schedulerName" . }}
   replicas: {{ .Values.scheduler.replicaCount }}
   template:
     metadata:
       labels:
-        component: scheduler
+        component: {{ include "scheduler-plugins.schedulerName" . }}
     spec:
-      serviceAccountName: {{ .Values.scheduler.name }}
+      serviceAccountName: {{ include "scheduler-plugins.schedulerName" . }}
       containers:
       - command:
         - /bin/kube-scheduler
@@ -81,7 +81,7 @@ spec:
       volumes:
       - name: scheduler-config
         configMap:
-          name: scheduler-config
+          name: {{ include "scheduler-plugins.schedulerName" . }}-config
       {{- with .Values.scheduler.nodeSelector }}
       nodeSelector: {{- toYaml . | nindent 8}}
       {{- end }}
@@ -91,4 +91,3 @@ spec:
       {{- with .Values.scheduler.tolerations }}
       tolerations: {{- toYaml . | nindent 8}}
       {{- end }}
-      
