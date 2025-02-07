@@ -93,7 +93,7 @@ subjects:
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ include "scheduler-plugins.controllerName" . }}
+  name: {{ include "scheduler-plugins.controllerNameNamespaced" . }}
 rules:
 - apiGroups: [""]
   resources: ["pods"]
@@ -121,14 +121,14 @@ rules:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ include "scheduler-plugins.controllerName" . }}
+  name: {{ include "scheduler-plugins.controllerNameNamespaced" . }}
 subjects:
 - kind: ServiceAccount
   name: {{ include "scheduler-plugins.controllerName" . }}
   namespace: {{ include "scheduler-plugins.namespace" . }}
 roleRef:
   kind: ClusterRole
-  name: {{ include "scheduler-plugins.controllerName" . }}
+  name: {{ include "scheduler-plugins.controllerNameNamespaced" . }}
   apiGroup: rbac.authorization.k8s.io
 ---
 apiVersion: rbac.authorization.k8s.io/v1
