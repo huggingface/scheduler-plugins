@@ -64,14 +64,30 @@ Names
 {{- .Values.name }}-scheduler
 {{- end }}
 
+{{- define "scheduler-plugins.schedulerFullNameNamespaced" -}}
+{{- .Values.name }}-scheduler-{{ include "scheduler-plugins.namespace" . }}
+{{- end }}
+
 {{- define "scheduler-plugins.schedulerName" -}}
 {{- include "scheduler-plugins.schedulerFullName" . | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{- define "scheduler-plugins.schedulerNameNamespaced" -}}
+{{- include "scheduler-plugins.schedulerFullNameNamespaced" . | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{- define "scheduler-plugins.controllerFullName" -}}
 {{- .Values.name }}-controller
 {{- end }}
 
+{{- define "scheduler-plugins.controllerFullNameNamespaced" -}}
+{{- .Values.name }}-controller-{{ include "scheduler-plugins.namespace" . }}
+{{- end }}
+
 {{- define "scheduler-plugins.controllerName" -}}
 {{- include "scheduler-plugins.controllerFullName" . | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{- define "scheduler-plugins.controllerNameNamespaced" -}}
+{{- include "scheduler-plugins.controllerFullNameNamespaced" . | trunc 63 | trimSuffix "-" }}
 {{- end }}
