@@ -1,7 +1,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: {{ include "scheduler-plugins.schedulerName" . }}
+  name: {{ include "scheduler-plugins.schedulerNameNamespaced" . }}
 rules:
 - apiGroups: [""]
   resources: ["namespaces"]
@@ -91,11 +91,11 @@ rules:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ include "scheduler-plugins.schedulerName" . }}
+  name: {{ include "scheduler-plugins.schedulerNameNamespaced" . }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: {{ include "scheduler-plugins.schedulerName" . }}
+  name: {{ include "scheduler-plugins.schedulerNameNamespaced" . }}
 subjects:
 - kind: ServiceAccount
   name: {{ include "scheduler-plugins.schedulerName" . }}
@@ -150,7 +150,7 @@ roleRef:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: {{.Values.name}}::extension-apiserver-authentication-reader
+  name: {{ include "scheduler-plugins.controllerNameNamespaced" . }}::extension-apiserver-authentication-reader
   namespace: kube-system
 roleRef:
   apiGroup: rbac.authorization.k8s.io
